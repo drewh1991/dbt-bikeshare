@@ -11,11 +11,11 @@ models:
           - unique
           - not_null
 
-  - name: my_second_dbt_model
+  - name: stationlocation
     description: "A starter dbt model"
     columns:
-      - name: id
-        description: "The primary key for this table"
+      - name: station_key
+        description: "Contains the longitude and lattitude locations for each station"
         tests:
           - unique
           - not_null
