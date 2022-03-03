@@ -2,10 +2,10 @@
 version: 2
 
 models:
-  - name: my_first_dbt_model
-    description: "A starter dbt model"
+  - name: station
+    description: "Contains all bike share stations in both NY and SF"
     columns:
-      - name: id
+      - name: station_key
         description: "The primary key for this table"
         tests:
           - unique
