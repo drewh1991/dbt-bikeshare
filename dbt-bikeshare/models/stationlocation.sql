@@ -1,5 +1,6 @@
 SELECT
- FARM_FINGERPRINT(CONCAT(CAST(station_id as string),'NY')) as station_key
+ {{ dbt_utils.surrogate_key([station_id, 'NY']) }} as station_key
+--  FARM_FINGERPRINT(CONCAT(CAST(station_id as string),'NY')) as station_key
 ,latitude
 ,longitude
 ,region_id
@@ -11,7 +12,8 @@ FROM `bigquery-public-data.new_york_citibike.citibike_stations`
 UNION ALL
 
 SELECT
- FARM_FINGERPRINT(CONCAT(CAST(station_id as string),'SF')) as station_key
+ {{ dbt_utils.surrogate_key([station_id, 'SF']) }} as station_key
+--  FARM_FINGERPRINT(CONCAT(CAST(station_id as string),'SF')) as station_key
 ,lat
 ,lon
 ,region_id

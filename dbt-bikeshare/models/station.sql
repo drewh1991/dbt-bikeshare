@@ -2,7 +2,8 @@
 {{ config(materialized='table') }}
 
 SELECT --Insert all NY stations
- FARM_FINGERPRINT(CONCAT(CAST(station_id as string),'NY')) as station_key
+--  FARM_FINGERPRINT(CONCAT(CAST(station_id as string),'NY')) as station_key
+ {{ dbt_utils.surrogate_key([station_id, 'NY']) }} as station_key
 ,station_id
 ,name
 ,capacity
@@ -18,7 +19,8 @@ FROM `bigquery-public-data.new_york_citibike.citibike_stations`
 UNION ALL
 
 SELECT -- Insert all SF bike stations
- FARM_FINGERPRINT(CONCAT(CAST(i.station_id as string),'SF')) as station_key
+--  FARM_FINGERPRINT(CONCAT(CAST(i.station_id as string),'SF')) as station_key
+ {{ dbt_utils.surrogate_key([station_id, 'SF']) }} as station_key
 ,i.station_id
 ,i.name
 ,IFNULL(s.num_bikes_available,0) + IFNULL(s.num_bikes_disabled,0) as capacity
