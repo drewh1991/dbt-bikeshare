@@ -2,20 +2,57 @@
 version: 2
 
 models:
+  - name: stg_station
+    description: "Stage table to station. Adds location code so a surrogate key can be generated in the next step."
+
+  - name: stg_stationlocation
+    description: "Stage table to stationlocation. Adds location code so a surrogate key can be generated in the next step."
+
+  - name: stg_rentalmethods
+    description: "This stage table cleans up the rental methods column by removing brackets and single quotes and splitting its comma seperated values to an array."
+
+  - name: stg_rentalmethods2
+    description: "This stage table unnests the comma delimited arrays and splits them to rows."
+
   - name: station
-    description: "Contains all bike share stations in both NY and SF"
+    description: "Contains all bike share stations in both NY and SF."
     columns:
       - name: station_key
-        description: "The primary key for this table"
+        description: "The primary key for this table."
         tests:
           - unique
           - not_null
 
   - name: stationlocation
-    description: "A starter dbt model"
+    description: "Contains all bike station locations"
     columns:
       - name: station_key
-        description: "Contains the longitude and lattitude locations for each station"
+        description: "The primary key for this table."
         tests:
           - unique
           - not_null
+      - name: latitude
+        description: "The latitude of the station."
+      - name: longitude
+        description: "The longitude of the station."
+      - name: zip_code
+        description: "The zip code of the station."
+      - name: location_code
+        description: "Determines whether this station is in New York (NY) or San Francisco (SF)."
+        test:
+          - not_null
+      - name: Geo
+        description: "A geography value derived from the stations zip code."
+
+  - name: stationrentalmethods
+    description: "A category table containing possible rental methods."
+    columns:
+      - name: rental_method_name
+        description: "Available rental methods for the station."
+        tests:
+          - unique
+          - accepted_values:
+              values: ['CREDITCARD','KEY']
+
+  - name: stationregion
+    description: "A category table to house the region descriptions (if listed) for a bike station."
