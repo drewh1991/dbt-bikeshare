@@ -23,6 +23,28 @@ models:
           - unique
           - not_null
 
+  - name: stg_rentalmethodscrosswalk
+    description: "Gather all distinct rental methods by station_key."
+    columns:
+      - name: rental_methods
+        desccription: "An array of rental methods"
+
+  - name: stg_rentalmethodscrosswalk2
+    description: "Split rental methods array to rows by station_key."
+    columns:
+      - name: rental_methods
+        desccription: "Rental method by station_key, one per row."
+
+  - name: rentalmethodscrosswalk
+    description: "Rental methods by station_key. Can be joined to stationrentalmethods on rental_method_id"
+    columns:
+      - name: rental_methods
+        desccription: "Rental method by station_key, one per row."
+        tests:
+          - relationships:
+              to: ref('stationrentalmethods')
+              field: rental_method_id
+
   - name: stationlocation
     description: "Contains all bike station locations"
     columns:
